@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Skybox
+  m_Shader: {fileID: -6465566751694194690, guid: e6f95c42f6d89f441844a6e5d9356878,
+    type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_dc097fec445f4358ab3ac6cd8fc21bba_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c371ee977209a944c86e359d7c75a63e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - Vector1_66041db238194c34ab2487fd9f319c0b: 85.54
+    - Vector1_d0cbb92fdcfc4b48bd84e3fe1be903a7: 6.7
+    - Vector1_e057bc5eecc040a7a1734b6b7f1ff0b5: 0.09
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Scale: 165
+    - _Scale_1: 20
+    - _Shining_2: 101.69
+    - _Stars_Density_2: 12.9
+    m_Colors:
+    - Color_727cb0d6740449739b52832d1826c631: {r: 0.01152545, g: 0.018559298, b: 0.066037714,
+        a: 0}
+    - Color_f4cb9f54080843cda7017afef8bc8c8a: {r: 0.39942008, g: 0.02251691, b: 0.43396226,
+        a: 0}
+    - Color_f4cb9f54080843cda7017afef8bc8c8a_1: {r: 0.7924528, g: 0.09344957, b: 0.5264626,
+        a: 0}
+    - Vector2_86f209fceb5c491cb352e594efe5ef04: {r: 8, g: 2, b: 0, a: 0}
+    - Vector2_a302a17b7e2e442790af54db468a519b: {r: 0.003, g: 0.001, b: 0, a: 0}
+    - Vector2_a302a17b7e2e442790af54db468a519b_1: {r: 0.00085, g: 0, b: 0, a: 0}
+    - _Tilling_1: {r: 0.3, g: 0.14, b: 0, a: 0}
+    - _Tilling_2: {r: 8, g: 2, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &5160730181188264183
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
