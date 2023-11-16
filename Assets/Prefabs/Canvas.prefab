@@ -2310,3 +2310,4 @@ MonoBehaviour:
   _sessionNameField: {fileID: 1269245378520800877}
   _nicknameField: {fileID: 1269245378727298798}
   _statusText: {fileID: 1269245376863029034}
+  _sceneName: Level

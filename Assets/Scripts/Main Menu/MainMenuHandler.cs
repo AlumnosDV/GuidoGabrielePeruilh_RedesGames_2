@@ -21,11 +21,13 @@ public class MainMenuHandler : MonoBehaviour
     
     [Header("InputFields")]
     [SerializeField] private InputField _sessionNameField;
-
     [SerializeField] private InputField _nicknameField;
-    
+
     [Header("Texts")]
     [SerializeField] private Text _statusText;
+
+    [Header("SceneName")]
+    [SerializeField] private string _sceneName;
     
     void Start()
     {
@@ -60,7 +62,7 @@ public class MainMenuHandler : MonoBehaviour
 
     void HostGame()
     {
-        _networkRunnerHandler.CreateGame(_sessionNameField.text, "Game");
+        _networkRunnerHandler.CreateGame(_sessionNameField.text, _sceneName);
     }
 
 }

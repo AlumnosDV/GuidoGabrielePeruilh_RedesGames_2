@@ -58,7 +58,7 @@ public class PlayerModel : MonoBehaviour
         Move();
     }
 
-    void Move()
+    public void Move()
     {
         transform.Rotate(-_mouseDistance.y * _lookRotateSpeed * Time.fixedDeltaTime, _mouseDistance.x * _lookRotateSpeed * Time.fixedDeltaTime, _roll * _rollSpeed * Time.fixedDeltaTime, Space.Self);
 

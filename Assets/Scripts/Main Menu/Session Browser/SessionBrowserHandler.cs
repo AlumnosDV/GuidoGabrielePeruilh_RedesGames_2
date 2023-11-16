@@ -27,17 +27,14 @@ public class SessionBrowserHandler : MonoBehaviour
 
     void ReceiveSessionList(List<SessionInfo> allSessions)
     {
-        //Limpiar todas las sesiones anteriores (eliminarlas)
         ClearPreviousChildren();
 
-        //Chequear si la lista es nula. En tal caso mostrar el texto y retornar
         if (allSessions.Count == 0)
         {
             NoSessionsFound();
             return;
         }
 
-        //Por cada session, instanciar un prefab con los datos de esa session.
         foreach (var session in allSessions)
         {
             AddNewSessionItem(session);
