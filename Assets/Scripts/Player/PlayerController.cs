@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-[RequireComponent(typeof(PlayerModel))]
-//[RequireComponent(typeof(PlayerGun))]
-//[RequireComponent(typeof(LifeHandler))]
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerGun))]
+[RequireComponent(typeof(LifeHandler))]
 public class PlayerController : NetworkBehaviour
 {
-    private PlayerModel _playerModel;
+    private PlayerMovement _playerMovement;
     private PlayerGun _playerGun;
     private NetworkInputData _networkInput;
 
@@ -17,19 +17,33 @@ public class PlayerController : NetworkBehaviour
 
     private void Awake()
     {
-        _playerModel = GetComponent<PlayerModel>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _playerGun = GetComponent<PlayerGun>();
         
         GetComponent<LifeHandler>().OnEnableController += (b) => enabled = b;
     }
     
+    private void OnEnable()
+    {
+        if (!_playerMovement.Controller) return;
+        
+        _playerMovement.Controller.enabled = true;
+    }
+
+    private void OnDisable()
+    {
+        if (!_playerMovement.Controller) return;
+        
+        _playerMovement.Controller.enabled = false;
+    }
+
     public override void FixedUpdateNetwork()
     {
         if (!GetInput(out _networkInput)) return;
 
         //MOVEMENT
         _direction = Vector3.forward * _networkInput.xMovement;
-        _playerModel.Move();
+        _playerMovement.Move(_direction);
                 
         //SHOOT
         if (_networkInput.isFirePressed)

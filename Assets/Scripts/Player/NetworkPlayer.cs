@@ -15,7 +15,7 @@ public class NetworkPlayer : NetworkBehaviour
     
     public override void Spawned()
     {
-        _myNickname = NicknamesHandler.Instance.CreateNewNickname(this);
+        //_myNickname = NicknamesHandler.Instance.CreateNewNickname(this);
         
         if (Object.HasInputAuthority)
         {
@@ -23,13 +23,20 @@ public class NetworkPlayer : NetworkBehaviour
 
             var savedNickname = PlayerPrefs.GetString("nickname");
 
+
             RPC_SetNewNickname(savedNickname);
             
-            GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.blue;
+            Camera.main.gameObject.SetActive(false);
+            //GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.blue;
         }
         else
         {
-            GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+            //GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.red;
+            Camera localCamara = GetComponentInChildren<Camera>();
+            localCamara.enabled = false;
+
+            AudioListener audioListener = GetComponentInChildren<AudioListener>();
+            audioListener.enabled = false;
         }
     }
 
@@ -43,7 +50,7 @@ public class NetworkPlayer : NetworkBehaviour
     {
         var behaviour = changed.Behaviour;
         
-        behaviour._myNickname.UpdateNickname(behaviour.Nickname);
+        //behaviour._myNickname.UpdateNickname(behaviour.Nickname);
     }
     
     public override void Despawned(NetworkRunner runner, bool hasState)

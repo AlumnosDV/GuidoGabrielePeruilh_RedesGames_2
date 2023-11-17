@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : NetworkBehaviour
 {
     [SerializeField] private Rigidbody _rgbd;
-    [SerializeField] private Animator _animator;
     
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private ParticleSystem _shootParticle;
@@ -19,33 +19,34 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float _rollSpeed;
     [SerializeField] private float _lookRotateSpeed;
 
+    private float _camaraRotation;
     private float _xAxi;
     private float _yAxi;
     private float _hover;
     private float _roll;
-    private Vector2 _lookInput, _screenCenter, _mouseDistance;
     private int _currentSign, _previousSign;
-    
+
+    private Vector2 _viewInput;
+    private Vector2 _mouseDistance;
+    private NetworkInputData _networkInput;
+    private Camera _localCamara;
+
+    private void Awake()
+    {
+        _localCamara = GetComponentInChildren<Camera>(); 
+    }
+
     void Start()
     {
-        _screenCenter.x = Screen.width * 0.5f;
-        _screenCenter.y = Screen.height * 0.5f;
-
         Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = false;
     }
 
     void Update()
     {
-        _lookInput.x = Input.mousePosition.x;
-        _lookInput.y = Input.mousePosition.y;
-
-        _mouseDistance.x = (_lookInput.x - _screenCenter.x) / _screenCenter.x;
-        _mouseDistance.y = (_lookInput.y - _screenCenter.y) / _screenCenter.y;
-        _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
-        _yAxi = Input.GetAxis("Vertical") * _forwardSpeed;
-        _xAxi = Input.GetAxis("Horizontal") * _sideSpeed;
-        _hover = Input.GetAxis("Hover") * _hoverSpeed;
-        _roll = Input.GetAxis("Roll") * _rollSpeed;
+        _camaraRotation += _viewInput.y * Time.deltaTime;
+        _camaraRotation = Mathf.Clamp(_camaraRotation, -90, 90);
+        _localCamara.transform.localRotation = Quaternion.Euler(_camaraRotation, 0, 0);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -53,18 +54,26 @@ public class PlayerModel : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
+        if (!GetInput(out _networkInput)) return;
+
         Move();
+        Rotate();
     }
 
     public void Move()
     {
-        transform.Rotate(-_mouseDistance.y * _lookRotateSpeed * Time.fixedDeltaTime, _mouseDistance.x * _lookRotateSpeed * Time.fixedDeltaTime, _roll * _rollSpeed * Time.fixedDeltaTime, Space.Self);
+        _yAxi = _networkInput.yMovement * _forwardSpeed;
+        _xAxi = _networkInput.xMovement * _sideSpeed;
+        _hover = _networkInput.hoverMovement * _hoverSpeed;
+        _roll = _networkInput.rollMovement * _rollSpeed;
+
+
 
         if (_yAxi != 0 || _xAxi != 0 || _hover != 0)
         {
-            _rgbd.MovePosition(transform.position + Vector3.forward * (_yAxi * Time.fixedDeltaTime) + Vector3.right * (_xAxi * Time.fixedDeltaTime) + Vector3.up * (_hover * Time.fixedDeltaTime));
+            _rgbd.MovePosition(transform.position + transform.forward * (_yAxi * Time.fixedDeltaTime) + transform.right * (_xAxi * Time.fixedDeltaTime) + transform.up * (_hover * Time.fixedDeltaTime));
 
             _currentSign = (int)Mathf.Sign(_yAxi);
 
@@ -73,15 +82,23 @@ public class PlayerModel : MonoBehaviour
                 _previousSign = _currentSign;
             }
             
-            _animator.SetFloat("MovementValue", Mathf.Abs(_yAxi));
         }
         else if (_currentSign != 0)
         {
             _currentSign = 0;
-            _animator.SetFloat("MovementValue", 0);
         }
     }
+
+    public void Rotate()
+    {
+
+        _mouseDistance.x = (_networkInput._lookInput.x - _networkInput._screenCenter.x) / _networkInput._screenCenter.x;
+        _mouseDistance.y = (_networkInput._lookInput.y - _networkInput._screenCenter.y) / _networkInput._screenCenter.y;
+        _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
         
+        transform.Rotate(-_mouseDistance.y * _lookRotateSpeed * Time.fixedDeltaTime, _mouseDistance.x * _lookRotateSpeed * Time.fixedDeltaTime, _roll * _rollSpeed * Time.fixedDeltaTime, Space.Self);
+    }
+
     void Shoot()
     {
         Instantiate(_bulletPrefab, _shootPosition.position, transform.rotation);

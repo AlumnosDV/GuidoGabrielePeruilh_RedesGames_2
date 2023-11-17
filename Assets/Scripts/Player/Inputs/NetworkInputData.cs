@@ -4,6 +4,6 @@ using UnityEngine;
 public struct NetworkInputData : INetworkInput
 {
     public float xMovement, yMovement, hoverMovement, rollMovement;
-    public Vector2 _lookInput, _screenCenter, _mouseDistance;
+    public Vector2 _lookInput, _screenCenter;
     public NetworkBool isFirePressed;
 }

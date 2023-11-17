@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            runner.Spawn(_playerPrefab, null, null, player);
+            runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
         }
     }
 
@@ -26,6 +26,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
             _playerInputs = NetworkPlayer.Local.GetComponent<LocalPlayerInputs>();
         else
             input.Set(_playerInputs.GetLocalInputs());
+
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner)
