@@ -26,6 +26,7 @@ public class LifeHandler : NetworkBehaviour
 
     public void TakeDamage(byte dmg)
     {
+        Debug.Log("TakDamege");
         if (dmg > CurrentLife) dmg = CurrentLife;
         
         CurrentLife -= dmg;

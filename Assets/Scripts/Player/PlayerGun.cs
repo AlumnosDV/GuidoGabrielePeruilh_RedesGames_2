@@ -23,20 +23,14 @@ public class PlayerGun : NetworkBehaviour
         _lastShootTime = Time.time;
         
         StartCoroutine(ShootCooldown());
+
+        Quaternion playerRotation = transform.rotation;
+
+        Quaternion bulletRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+
+        // Instanciar la bala con la rotación ajustada
         Runner.Spawn(_bulletPrefab, _spawningBullet.position, transform.rotation);
 
-        #region CON RAYCAST
-        // var raycast = Runner.LagCompensation.Raycast(origin: _spawningBullet.position,
-        //                                                 direction: _spawningBullet.forward,
-        //                                                 length: 100,
-        //                                                 player: Object.InputAuthority,
-        //                                                 hit: out var hitInfo);
-        //
-        // if (!raycast) return;
-        //
-        // Debug.Log(hitInfo.Hitbox.Root.gameObject.name);
-        // hitInfo.GameObject.GetComponentInParent<LifeHandler>()?.TakeDamage(25);
-        #endregion
     }
 
     IEnumerator ShootCooldown()
@@ -57,6 +51,7 @@ public class PlayerGun : NetworkBehaviour
 
     void TurnOnShootingParticle()
     {
+        if (_fireParticles == null) return;
         _fireParticles.Play();
     }
 }
