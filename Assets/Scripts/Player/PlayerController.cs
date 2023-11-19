@@ -31,7 +31,7 @@ public class PlayerController : NetworkBehaviour
         //SHOOT
         if (_networkInput.isFirePressed)
         {
-            _playerGun.Shoot();
+            _playerGun.Shoot(_networkInput.aimForwardVector);
         }
     }
 }

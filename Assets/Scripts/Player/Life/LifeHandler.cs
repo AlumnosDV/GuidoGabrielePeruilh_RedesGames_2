@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using System;
+using UnityEngine.UI;
 
 public class LifeHandler : NetworkBehaviour
 {
@@ -10,6 +11,8 @@ public class LifeHandler : NetworkBehaviour
     [Networked(OnChanged = nameof(OnLifeChanged))]
     private byte CurrentLife { get; set; }
     
+    [SerializeField] private RawImage _uiOnHitImage;
+    [SerializeField] private Color _uiOnHitColor;
     [SerializeField] private GameObject _visualObject;
     [SerializeField] private byte _livesAmount = 3;
     
@@ -17,7 +20,14 @@ public class LifeHandler : NetworkBehaviour
     private bool IsDead { get; set; }
 
     public event Action OnRespawn = delegate { };
-    public event Action<bool> OnEnableController = delegate {  }; 
+    public event Action<bool> OnEnableController = delegate {  };
+
+    private HitboxRoot _hitBoxRoot;
+
+    private void Awake()
+    {
+        _hitBoxRoot = GetComponentInChildren<HitboxRoot>();
+    }
 
     public override void Spawned()
     {
@@ -44,6 +54,18 @@ public class LifeHandler : NetworkBehaviour
         StartCoroutine(RespawnCooldown());
     }
 
+    IEnumerator OnHitCO()
+    {
+        if (Object.HasInputAuthority)
+            _uiOnHitImage.color = _uiOnHitColor;
+
+        yield return new WaitForSeconds(0.2f);
+
+        if (Object.HasInputAuthority && !IsDead)
+            _uiOnHitImage.color = new Color(0,0,0,0);
+
+    }
+
     IEnumerator RespawnCooldown()
     {
         IsDead = true;
@@ -62,6 +84,23 @@ public class LifeHandler : NetworkBehaviour
         OnRespawn();
     }
 
+    static void OnLifeChanged(Changed<LifeHandler> changed)
+    {
+        //TODO: floating life bars.
+        byte currentLife = changed.Behaviour.CurrentLife;
+        changed.LoadOld();
+        byte oldLife = changed.Behaviour.CurrentLife;
+
+        if (currentLife < oldLife)
+            changed.Behaviour.OnLifeReduced();
+
+    }
+
+    private void OnLifeReduced()
+    {
+        StartCoroutine(OnHitCO());
+    }
+
     static void OnDeadChanged(Changed<LifeHandler> changed)
     {
         bool currentDead = changed.Behaviour.IsDead;
@@ -72,20 +111,16 @@ public class LifeHandler : NetworkBehaviour
 
         //Si ahora esta muerto (IsDead == true)
         if (currentDead)
-        {
-            //Llamo en todos los clientes al metodo de muerte
             changed.Behaviour.RemoteDead();
-        }
-        else if (oldDead) //Si ahora no estoy muerto pero antes si
-        {
-            //Llamo en todos los clientes al metodo de respawn
+        else if (oldDead && !currentDead) //Si ahora no estoy muerto pero antes si
             changed.Behaviour.RemoteRespawn();
-        }
+
     }
 
     void RemoteDead()
     {
         _visualObject.SetActive(false);
+        _hitBoxRoot.HitboxRootActive = false;
 
         OnEnableController(false);
     }
@@ -93,6 +128,7 @@ public class LifeHandler : NetworkBehaviour
     void RemoteRespawn()
     {
         _visualObject.SetActive(true);
+        _hitBoxRoot.HitboxRootActive = true;
 
         OnEnableController(true);
     }
@@ -114,8 +150,5 @@ public class LifeHandler : NetworkBehaviour
         Runner.Despawn(Object);
     }
     
-    static void OnLifeChanged(Changed<LifeHandler> changed)
-    {
-        //TODO: floating life bars.
-    }
+
 }
