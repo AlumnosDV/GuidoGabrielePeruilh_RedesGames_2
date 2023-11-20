@@ -41,11 +41,11 @@ public class Bullet : NetworkRigidbody
     private void OnTriggerEnter(Collider other)
     {
         if (!Object || !Object.HasStateAuthority) return;
-        
-        if (other.TryGetComponent(out LifeHandler enemy))
-        {
-            enemy.TakeDamage(_bulletDamage);
-        }
+
+        var enemy = other.GetComponentInParent<LifeHandler>();
+        if (enemy == null) return;
+
+        enemy.TakeDamage(_bulletDamage);
 
         DespawnObject();
     }

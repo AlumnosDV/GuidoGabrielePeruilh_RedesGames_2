@@ -19,10 +19,12 @@ public class NicknameItem : MonoBehaviour
     public void UpdateNickname(string newNick)
     {
         _nameText.text = newNick;
+        _nameText.color = Color.white;
     }
     
     public void UpdatePosition()
     {
         transform.position = _owner.position + Vector3.up * Y_OFFSET;
+        transform.rotation = _owner.rotation;
     }
 }

@@ -17,7 +17,7 @@ public class PlayerController : NetworkBehaviour
     {
         _playerModel = GetComponent<PlayerModel>();
         _playerGun = GetComponent<PlayerGun>();
-        
+
         GetComponent<LifeHandler>().OnEnableController += (b) => enabled = b;
     }
    
@@ -28,10 +28,13 @@ public class PlayerController : NetworkBehaviour
 
         _playerModel.Move(_networkInput);
                 
-        //SHOOT
         if (_networkInput.isFirePressed)
         {
-            _playerGun.Shoot(_networkInput.aimForwardVector);
+            _playerGun.Shoot();
         }
+    }
+
+    public void TurnBack()
+    {
     }
 }

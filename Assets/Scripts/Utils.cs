@@ -8,4 +8,10 @@ public static class Utils
     {
         return new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
     }
+
+    public static void SetRenderLayerInChildren(Transform transform, int layerNumber)
+    {
+        foreach (Transform trans in transform.GetComponentInChildren<Transform>(true))
+            trans.gameObject.layer = layerNumber;
+    }
 }

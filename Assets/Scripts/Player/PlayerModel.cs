@@ -17,12 +17,18 @@ public class PlayerModel : NetworkBehaviour
     private float _yAxi;
     private float _hover;
 
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
         //Cursor.visible = false;
     }
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        GetComponent<LifeHandler>().OnRespawn += () => transform.position = Utils.GetRandomSpawnPoint();
+    }
+
 
     public void Move(NetworkInputData networkInput)
     {

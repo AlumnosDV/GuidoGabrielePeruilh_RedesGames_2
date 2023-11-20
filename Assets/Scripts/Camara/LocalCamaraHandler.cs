@@ -12,8 +12,6 @@ public class LocalCamaraHandler : MonoBehaviour
     private Vector2 _screenCenter;
     private Vector2 _mouseDistance;
 
-    private float _cameraRotationX;
-    private float _cameraRotationY;
     private float _rollMovement;
 
     private void Awake()
@@ -33,10 +31,6 @@ public class LocalCamaraHandler : MonoBehaviour
         if (!_localCamera.enabled) return;
 
         _localCamera.transform.position = _cameraAnchorPoint.position;
-
-        _cameraRotationX += _viewInput.y * Time.deltaTime;
-        _cameraRotationX = Mathf.Clamp(_cameraRotationX, -90, 90);
-        _cameraRotationY += _viewInput.x * Time.deltaTime;
 
         _mouseDistance.x = (_viewInput.x - _screenCenter.x) / _screenCenter.x;
         _mouseDistance.y = (_viewInput.y - _screenCenter.y) / _screenCenter.y;

@@ -18,7 +18,7 @@ public class PlayerGun : NetworkBehaviour
     private bool IsFiring { get; set; }
 
 
-    public void Shoot(Vector3 aimForward)
+    public void Shoot()
     {
         if (Time.time - _lastShootTime < _shootCooldown) return;
 
@@ -27,33 +27,6 @@ public class PlayerGun : NetworkBehaviour
         StartCoroutine(ShootCooldown());
 
         Runner.Spawn(_bulletPrefab, _spawningBullet.position, transform.rotation);
-
-        var raycast = Runner.LagCompensation.Raycast(origin: _spawningBullet.position,
-                                                        direction: aimForward,
-                                                        length: 100,
-                                                        player: Object.InputAuthority,
-                                                        hit: out var hitInfo,
-                                                        _collisionLayers,
-                                                        HitOptions.IncludePhysX);
-        var hitDistance = 100f;
-        var isHitOtherPlayer = false;
-
-        if (hitInfo.Distance > 0)
-            hitDistance = hitInfo.Distance;
-
-        if (isHitOtherPlayer)
-        {
-            Debug.DrawRay(_spawningBullet.position, aimForward * hitDistance, Color.red, 1);
-        }
-        else
-        {
-            Debug.DrawRay(_spawningBullet.position, aimForward * hitDistance, Color.green, 1);
-        }
-
-        if (!raycast) return;
-
-        Debug.Log(hitInfo.Hitbox.Root.gameObject.name);
-        hitInfo.GameObject.GetComponentInParent<LifeHandler>()?.TakeDamage(_damage);
 
     }
 

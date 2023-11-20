@@ -25,13 +25,15 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
         
         _currentRunner.AddCallbacks(this);
 
+        Debug.Log("_currentRunner" + " " + _currentRunner);
+
         var clientTask = JoinLobbyTask();
     }
 
     async Task JoinLobbyTask()
     {
         var result = await _currentRunner.JoinSessionLobby(SessionLobby.Custom, "Normal Lobby");
-
+        Debug.Log(result);
         if (result.Ok)
         {
             OnLobbyJoined();
