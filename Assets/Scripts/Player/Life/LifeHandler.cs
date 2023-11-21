@@ -22,13 +22,6 @@ public class LifeHandler : NetworkBehaviour
     public event Action OnRespawn = delegate { };
     public event Action<bool> OnEnableController = delegate {  };
 
-    private HitboxRoot _hitBoxRoot;
-
-    private void Awake()
-    {
-        _hitBoxRoot = GetComponentInChildren<HitboxRoot>();
-    }
-
     public override void Spawned()
     {
         CurrentLife = FULL_LIFE;
@@ -109,10 +102,9 @@ public class LifeHandler : NetworkBehaviour
         
         bool oldDead = changed.Behaviour.IsDead;
 
-        //Si ahora esta muerto (IsDead == true)
         if (currentDead)
             changed.Behaviour.RemoteDead();
-        else if (oldDead && !currentDead) //Si ahora no estoy muerto pero antes si
+        else if (oldDead && !currentDead)
             changed.Behaviour.RemoteRespawn();
 
     }
@@ -120,7 +112,6 @@ public class LifeHandler : NetworkBehaviour
     void RemoteDead()
     {
         _visualObject.SetActive(false);
-        _hitBoxRoot.HitboxRootActive = false;
 
         OnEnableController(false);
     }
@@ -128,20 +119,17 @@ public class LifeHandler : NetworkBehaviour
     void RemoteRespawn()
     {
         _visualObject.SetActive(true);
-        _hitBoxRoot.HitboxRootActive = true;
-
+        _uiOnHitImage.color = new Color(0, 0, 0, 0);
         OnEnableController(true);
     }
     
     void DisconnectInputAuthority()
     {
-        //Si este objeto que murio no tiene autoridad de input
         if (!Object.HasInputAuthority)
         {
-            //Entonces desconecto al cliente que si la tiene sobre este objeto
             Runner.Disconnect(Object.InputAuthority);
         }
-        else //Sino, quiero decir que el que murio es el Host
+        else
         {
             //Activar el canvas de que perdio el Host
         }

@@ -21,7 +21,7 @@ public class SessionInfoListUIItem : MonoBehaviour
         _sessionNameText.text = sessionInfo.Name;
         _playerCountText.text = $"{sessionInfo.PlayerCount}/{sessionInfo.MaxPlayers}";
 
-        _joinButton.gameObject.SetActive(sessionInfo.PlayerCount >= sessionInfo.MaxPlayers);
+        _joinButton.gameObject.SetActive(sessionInfo.PlayerCount <= sessionInfo.MaxPlayers);
     }
 
     public void OnClick()

@@ -7,7 +7,6 @@ public class PlayerGun : NetworkBehaviour
 {
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private Transform _spawningBullet;
-    [SerializeField] private ParticleSystem _fireParticles;
     [SerializeField] private LayerMask _collisionLayers;
     [SerializeField] private byte _damage = 10;
     [SerializeField] private float _shootCooldown = 0.15f;
@@ -43,12 +42,6 @@ public class PlayerGun : NetworkBehaviour
         changed.LoadOld();
         bool oldFiring = changed.Behaviour.IsFiring;
 
-        if (!oldFiring && currentFiring) changed.Behaviour.TurnOnShootingParticle();
     }
 
-    void TurnOnShootingParticle()
-    {
-        if (_fireParticles == null) return;
-        _fireParticles.Play();
-    }
 }

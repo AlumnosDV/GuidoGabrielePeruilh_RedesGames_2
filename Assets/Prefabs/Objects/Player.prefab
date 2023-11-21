@@ -144,8 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   _rgbd: {fileID: 2162466319470576551}
-  _myNetworkAnimator: {fileID: 0}
-  _myLocalCamera: {fileID: 0}
   _life: 0
   _forwardSpeed: 25
   _sideSpeed: 7.5
@@ -191,7 +189,6 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 5412129899192179985, guid: effb72c08af50de4c87260569ec553dc,
     type: 3}
   _spawningBullet: {fileID: 3751495126867588938}
-  _fireParticles: {fileID: 0}
   _collisionLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -352,41 +349,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2162466319470576550}
     m_Modifications:
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: StateHashes.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: TriggerHashes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: StateHashes.Array.data[1]
-      value: 2081823275
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: StateHashes.Array.data[2]
-      value: 1432961145
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: StateHashes.Array.data[5]
-      value: -685270779
-      objectReference: {fileID: 0}
-    - target: {fileID: 1569697626173518369, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: StateHashes.Array.data[6]
-      value: 716135150
-      objectReference: {fileID: 0}
-    - target: {fileID: 2869004841863709274, guid: f37a40e98fefadb4cab5ea72d56bea94,
-        type: 3}
-      propertyPath: Animator
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5046729706534367512, guid: f37a40e98fefadb4cab5ea72d56bea94,
         type: 3}
       propertyPath: m_RootOrder

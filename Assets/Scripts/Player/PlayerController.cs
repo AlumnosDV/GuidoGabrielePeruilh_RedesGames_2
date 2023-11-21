@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-[RequireComponent(typeof(PlayerModel))]
+[RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerGun))]
 [RequireComponent(typeof(LifeHandler))]
 public class PlayerController : NetworkBehaviour
 {
-    private PlayerModel _playerModel;
+    private PlayerMovement _playerModel;
     private PlayerGun _playerGun;
     private NetworkInputData _networkInput;
 
     private void Awake()
     {
-        _playerModel = GetComponent<PlayerModel>();
+        _playerModel = GetComponent<PlayerMovement>();
         _playerGun = GetComponent<PlayerGun>();
 
         GetComponent<LifeHandler>().OnEnableController += (b) => enabled = b;

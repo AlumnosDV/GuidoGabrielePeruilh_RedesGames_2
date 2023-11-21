@@ -25,8 +25,6 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
         
         _currentRunner.AddCallbacks(this);
 
-        Debug.Log("_currentRunner" + " " + _currentRunner);
-
         var clientTask = JoinLobbyTask();
     }
 
@@ -88,13 +86,6 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         OnSessionListUpdate(sessionList);
-        
-        // if (sessionList.Count > 0)
-        // {
-        //     var sessionInfo = sessionList[0];
-        //     
-        //     JoinGame(sessionInfo);
-        // }
     }
 
     #region Unused Callbacks

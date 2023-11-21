@@ -11,7 +11,9 @@ public static class Utils
 
     public static void SetRenderLayerInChildren(Transform transform, int layerNumber)
     {
-        foreach (Transform trans in transform.GetComponentInChildren<Transform>(true))
+        Transform[] childrenTransforms = transform.GetComponentsInChildren<Transform>(true);
+
+        foreach (Transform trans in childrenTransforms)
             trans.gameObject.layer = layerNumber;
     }
 }

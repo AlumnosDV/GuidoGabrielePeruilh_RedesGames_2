@@ -1,56 +1,49 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
 using UnityEngine;
+using Fusion;
 
-[RequireComponent(typeof(LifeHandler))]
-public class PlayerMovement : NetworkCharacterControllerPrototype
+[RequireComponent(typeof(Rigidbody))]
+public class PlayerMovement : NetworkBehaviour
 {
-    [SerializeField]
-    private NetworkMecanimAnimator _mecanimAnim;
-    
+    [SerializeField] private Rigidbody _rgbd;
+    [SerializeField] private float _life;
+    [SerializeField] private float _forwardSpeed;
+    [SerializeField] private float _sideSpeed;
+    [SerializeField] private float _hoverSpeed;
+
+    private float _xAxi;
+    private float _yAxi;
+    private float _hover;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = false;
+    }
+
     public override void Spawned()
     {
         base.Spawned();
-
-        GetComponent<LifeHandler>().OnRespawn += () => TeleportToPosition(transform.position);
+        GetComponent<LifeHandler>().OnRespawn += () => transform.position = Utils.GetRandomSpawnPoint();
     }
 
-    public override void Move(Vector3 direction)
+
+    public void Move(NetworkInputData networkInput)
     {
-        var deltaTime = Runner.DeltaTime;
-        var previousPos = transform.position;
-        var moveVelocity = Velocity;
+        _yAxi = networkInput.yMovement * _forwardSpeed;
+        _xAxi = networkInput.xMovement * _sideSpeed;
+        _hover = networkInput.hoverMovement * _hoverSpeed;
 
-        direction = direction.normalized;
-
-        if (IsGrounded && moveVelocity.y < 0)
+        if (_yAxi != 0 || _xAxi != 0 || _hover != 0)
         {
-            moveVelocity.y = 0f;
+            _rgbd.MovePosition(transform.position + transform.forward * (_yAxi * Time.fixedDeltaTime) + transform.right * (_xAxi * Time.fixedDeltaTime) + transform.up * (_hover * Time.fixedDeltaTime));   
         }
 
-        moveVelocity.y += gravity * Runner.DeltaTime;
-
-        var horizontalVel = default(Vector3);
-        horizontalVel.z = moveVelocity.x;
-
-        if (direction == default)
-        {
-            horizontalVel = Vector3.Lerp(horizontalVel, default, braking * deltaTime);
-        }
-        else
-        {
-            horizontalVel = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
-            transform.rotation = Quaternion.Euler(Vector3.up * (90 * Mathf.Sign(direction.z)));
-        }
-
-        moveVelocity.x = horizontalVel.z;
-
-        Controller.Move(moveVelocity * deltaTime);
-
-        Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
-        IsGrounded = Controller.isGrounded;
-
-        _mecanimAnim.Animator.SetFloat("MovementValue", Velocity.sqrMagnitude);
+        transform.forward = networkInput.aimForwardVector;
+        Quaternion rotation = transform.rotation;
+        rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z);
+        transform.rotation = rotation;
     }
 }
