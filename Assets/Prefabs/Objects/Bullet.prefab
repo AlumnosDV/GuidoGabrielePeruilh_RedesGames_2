@@ -209,8 +209,7 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
-  _bulletDamage: 10
-  _bulletSpeed: 50
+  _bulletData: {fileID: 11400000, guid: 7e3a2e6289c551042abb0be79d62091a, type: 2}
 --- !u!114 &5412129899192179990
 MonoBehaviour:
   m_ObjectHideFlags: 0

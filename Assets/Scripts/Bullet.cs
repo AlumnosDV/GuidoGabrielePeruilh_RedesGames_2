@@ -7,14 +7,13 @@ using Fusion;
 public class Bullet : NetworkRigidbody
 {
     private TickTimer _expireLifeTimer = TickTimer.None;
-    [SerializeField] private byte _bulletDamage;
-    [SerializeField] private float _bulletSpeed = 30f;
+    [SerializeField] private BulletDataSO _bulletData;
     
     public override void Spawned()
     {
         base.Spawned();
         
-        Rigidbody.AddForce(transform.forward * _bulletSpeed, ForceMode.VelocityChange);
+        Rigidbody.AddForce(transform.forward * _bulletData.ForwardSpeed, ForceMode.VelocityChange);
 
         if (Object.HasStateAuthority)
             _expireLifeTimer = TickTimer.CreateFromSeconds(Runner, 2f);
@@ -45,7 +44,7 @@ public class Bullet : NetworkRigidbody
         var enemy = other.GetComponentInParent<LifeHandler>();
         if (enemy == null) return;
 
-        enemy.TakeDamage(_bulletDamage);
+        enemy.TakeDamage(_bulletData.Damage);
 
         DespawnObject();
     }

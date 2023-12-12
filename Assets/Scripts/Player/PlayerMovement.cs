@@ -45,9 +45,4 @@ public class PlayerMovement : NetworkBehaviour
 
         _rgbd.MoveRotation(networkInput.aimForwardVector);
     }
-
-    public void Rotate(float x, float y, float z)
-    {
-
-    }
 }

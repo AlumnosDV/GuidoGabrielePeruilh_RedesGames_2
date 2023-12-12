@@ -34,12 +34,9 @@ public class PlayerController : NetworkBehaviour
         if (!GetInput(out _networkInput)) return;
 
         _playerMovement.Move(_networkInput);
-        _playerMovement.Rotate(_localCamaraHandler.RotationX, _localCamaraHandler.RotationY, _localCamaraHandler.RotationZ);
-            
+           
         if (_networkInput.isFirePressed)
-        {
             _playerGun.Shoot();
-        }
     }
 
     public void TurnBack()
