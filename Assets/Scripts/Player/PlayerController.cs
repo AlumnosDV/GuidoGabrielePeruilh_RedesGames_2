@@ -9,16 +9,23 @@ using Fusion;
 [RequireComponent(typeof(LifeHandler))]
 public class PlayerController : NetworkBehaviour
 {
-    private PlayerMovement _playerModel;
+    private PlayerMovement _playerMovement;
     private PlayerGun _playerGun;
+    private LocalCamaraHandler _localCamaraHandler;
     private NetworkInputData _networkInput;
 
     private void Awake()
     {
-        _playerModel = GetComponent<PlayerMovement>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _playerGun = GetComponent<PlayerGun>();
+        _localCamaraHandler = GetComponentInChildren<LocalCamaraHandler>();
 
-        GetComponent<LifeHandler>().OnEnableController += (b) => enabled = b;
+        GetComponent<LifeHandler>().OnEnableController += DesactiveController;
+    }
+
+    private void DesactiveController(bool active)
+    {
+        this.enabled = active;
     }
    
 
@@ -26,8 +33,9 @@ public class PlayerController : NetworkBehaviour
     {
         if (!GetInput(out _networkInput)) return;
 
-        _playerModel.Move(_networkInput);
-                
+        _playerMovement.Move(_networkInput);
+        _playerMovement.Rotate(_localCamaraHandler.RotationX, _localCamaraHandler.RotationY, _localCamaraHandler.RotationZ);
+            
         if (_networkInput.isFirePressed)
         {
             _playerGun.Shoot();

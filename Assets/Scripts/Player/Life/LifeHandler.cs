@@ -7,44 +7,58 @@ using UnityEngine.UI;
 
 public class LifeHandler : NetworkBehaviour
 {
-    private const byte FULL_LIFE = 100;
-    [Networked(OnChanged = nameof(OnLifeChanged))]
-    private byte CurrentLife { get; set; }
-    
+    private NetworkPlayer _myNetworkPlayer;
     [SerializeField] private RawImage _uiOnHitImage;
     [SerializeField] private Color _uiOnHitColor;
     [SerializeField] private GameObject _visualObject;
-    [SerializeField] private byte _livesAmount = 3;
+    [SerializeField] private PlayerDataSO _playerData;
+
+    [Networked(OnChanged = nameof(OnLifeChanged))]
+    private byte CurrentLife { get; set; }
     
     [Networked(OnChanged = nameof(OnDeadChanged))]
     private bool IsDead { get; set; }
 
+    [Networked]
+    private bool PlayerDead { get; set; }
+
     public event Action OnRespawn = delegate { };
     public event Action<bool> OnEnableController = delegate {  };
 
+    private void Awake()
+    {
+        _myNetworkPlayer = GetComponent<NetworkPlayer>();
+    }
+
     public override void Spawned()
     {
-        CurrentLife = FULL_LIFE;
+        CurrentLife = _playerData.MaxLife;
+        PlayerDead = false;
     }
 
     public void TakeDamage(byte dmg)
     {
-        Debug.Log("TakDamege");
         if (dmg > CurrentLife) dmg = CurrentLife;
         
         CurrentLife -= dmg;
 
-        if (CurrentLife != 0) return;
+        if (CurrentLife > 0) return;
         
-        _livesAmount--;
+        _playerData.Lives--;
 
-        if (_livesAmount == 0)
+        if (_playerData.Lives == 0)
+            PlayerDead = true;
+
+        if (PlayerDead)
         {
             DisconnectInputAuthority();
             return;
         }
 
+        
         StartCoroutine(RespawnCooldown());
+
+
     }
 
     IEnumerator OnHitCO()
@@ -72,14 +86,13 @@ public class LifeHandler : NetworkBehaviour
 
     void ApplyRespawn()
     {
-        CurrentLife = FULL_LIFE;
+        CurrentLife = _playerData.MaxLife;
 
         OnRespawn();
     }
 
     static void OnLifeChanged(Changed<LifeHandler> changed)
     {
-        //TODO: floating life bars.
         byte currentLife = changed.Behaviour.CurrentLife;
         changed.LoadOld();
         byte oldLife = changed.Behaviour.CurrentLife;
@@ -122,21 +135,38 @@ public class LifeHandler : NetworkBehaviour
         _uiOnHitImage.color = new Color(0, 0, 0, 0);
         OnEnableController(true);
     }
-    
+
     void DisconnectInputAuthority()
     {
+
         if (!Object.HasInputAuthority)
         {
-            Runner.Disconnect(Object.InputAuthority);
+            Debug.Log($"{gameObject.name} dead {PlayerDead}");
+            _myNetworkPlayer.PlayerLeft(false, PlayerDead);
+            StartCoroutine(DisconnectPlayerCO());
         }
         else
         {
-            //Activar el canvas de que perdio el Host
+            if (Object.HasStateAuthority)
+            {
+                _myNetworkPlayer.PlayerLeft(true, PlayerDead);
+            }
         }
 
-        //Despawneo este jugador ya que murio
+        StartCoroutine(PlayerDesawnerCO());
+    }
+
+    IEnumerator DisconnectPlayerCO()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Runner.Disconnect(Object.InputAuthority);
+    }
+
+    IEnumerator PlayerDesawnerCO()
+    {
+        yield return new WaitForSeconds(1.5f);
         Runner.Despawn(Object);
     }
-    
+
 
 }

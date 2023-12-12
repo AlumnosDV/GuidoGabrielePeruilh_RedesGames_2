@@ -8,7 +8,6 @@ public class PlayerGun : NetworkBehaviour
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private Transform _spawningBullet;
     [SerializeField] private LayerMask _collisionLayers;
-    [SerializeField] private byte _damage = 10;
     [SerializeField] private float _shootCooldown = 0.15f;
 
     private float _lastShootTime;

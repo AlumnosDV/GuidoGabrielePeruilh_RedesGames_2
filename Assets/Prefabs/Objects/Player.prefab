@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2823325287050488700}
   - component: {fileID: 9071325214366772901}
   - component: {fileID: 2916407988288436085}
+  - component: {fileID: 4155421401163911639}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -70,6 +71,7 @@ MonoBehaviour:
   - {fileID: 2823325287050488700}
   - {fileID: 9071325214366772901}
   - {fileID: 2916407988288436085}
+  - {fileID: 4155421401163911639}
   - {fileID: 5352841059633990876}
   SimulationBehaviours: []
 --- !u!114 &8218990235910703557
@@ -129,7 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  localCameraHandler: {fileID: 9116936350095901398}
   playerModel: {fileID: 2162466319470576550}
+  _localCanvas: {fileID: 8408415727899671262}
 --- !u!114 &2162466319470576549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,10 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   _rgbd: {fileID: 2162466319470576551}
-  _life: 0
-  _forwardSpeed: 25
-  _sideSpeed: 7.5
-  _hoverSpeed: 5
+  _playerData: {fileID: 11400000, guid: 3ef530b3bc0f3704f9a1a548242f8381, type: 2}
 --- !u!114 &4449928434368935561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +193,6 @@ MonoBehaviour:
   _collisionLayers:
     serializedVersion: 2
     m_Bits: 64
-  _damage: 10
   _shootCooldown: 0.15
 --- !u!114 &2916407988288436085
 MonoBehaviour:
@@ -210,7 +210,20 @@ MonoBehaviour:
   _uiOnHitImage: {fileID: 6427751072910425637}
   _uiOnHitColor: {r: 1, g: 1, b: 1, a: 1}
   _visualObject: {fileID: 1352195311074841951}
-  _livesAmount: 3
+  _playerData: {fileID: 11400000, guid: 3ef530b3bc0f3704f9a1a548242f8381, type: 2}
+--- !u!114 &4155421401163911639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162466319470576548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d53d7c8bcc2bd43b2e16e71682713b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!1 &2162466321231556261
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +362,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2162466319470576550}
     m_Modifications:
+    - target: {fileID: 1029724755716831865, guid: f37a40e98fefadb4cab5ea72d56bea94,
+        type: 3}
+      propertyPath: _myNetworkPlayer
+      value: 
+      objectReference: {fileID: 7123030034486502191}
     - target: {fileID: 5046729706534367512, guid: f37a40e98fefadb4cab5ea72d56bea94,
         type: 3}
       propertyPath: m_RootOrder
@@ -451,5 +469,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8408415727899671262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3112271806367581219, guid: f37a40e98fefadb4cab5ea72d56bea94,
+    type: 3}
+  m_PrefabInstance: {fileID: 6881978766990819069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9116936350095901398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2379147962234485803, guid: f37a40e98fefadb4cab5ea72d56bea94,
+    type: 3}
+  m_PrefabInstance: {fileID: 6881978766990819069}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bae9b2c2edb1b46b5d08d5553fc396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

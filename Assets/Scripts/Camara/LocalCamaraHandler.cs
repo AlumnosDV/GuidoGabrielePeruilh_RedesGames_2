@@ -6,13 +6,15 @@ public class LocalCamaraHandler : MonoBehaviour
 {
     private Camera _localCamera;
     [SerializeField] private Transform _cameraAnchorPoint;
-    [SerializeField] private float _rollSpeed;
-    [SerializeField] private float _lookRotateSpeed;
+    [SerializeField] private PlayerDataSO _playerData;
     private Vector2 _viewInput;
     private Vector2 _screenCenter;
     private Vector2 _mouseDistance;
-
     private float _rollMovement;
+
+    public float RotationX { get; private set; }
+    public float RotationY { get; private set; }
+    public float RotationZ { get; private set; }
 
     private void Awake()
     {
@@ -36,7 +38,11 @@ public class LocalCamaraHandler : MonoBehaviour
         _mouseDistance.y = (_viewInput.y - _screenCenter.y) / _screenCenter.y;
         _mouseDistance = Vector2.ClampMagnitude(_mouseDistance, 1f);
 
-        _localCamera.transform.Rotate(-_mouseDistance.y * _lookRotateSpeed * Time.fixedDeltaTime, _mouseDistance.x * _lookRotateSpeed * Time.fixedDeltaTime, _rollMovement * _rollSpeed * Time.fixedDeltaTime, Space.Self);
+        RotationX = -_mouseDistance.y * _playerData.LookRotateSpeed * Time.fixedDeltaTime;
+        RotationY = _mouseDistance.x * _playerData.LookRotateSpeed * Time.fixedDeltaTime;
+        RotationZ = _rollMovement * _playerData.RollSpeed * Time.fixedDeltaTime;
+
+        _localCamera.transform.Rotate(RotationX, RotationY, RotationZ, Space.Self);
     }
 
     public void SetViewInputVector(Vector2 viewInput, Vector2 screenCenter, float rollMovement)

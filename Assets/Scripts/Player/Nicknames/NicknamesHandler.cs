@@ -28,7 +28,7 @@ public class NicknamesHandler : MonoBehaviour
         owner.OnPlayerDespawned += () =>
         {
             _allNicknames.Remove(newNickname);
-
+            if (newNickname == null) return;
             Destroy(newNickname.gameObject);
         };
         

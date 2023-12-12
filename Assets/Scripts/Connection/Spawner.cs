@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using Fusion.Sockets;
 using System;
+using System.Linq;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -36,7 +37,10 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     
     #region Unused Callbacks
     
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) 
+    {
+        Debug.Log($"On Player Left");
+    }
     
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     

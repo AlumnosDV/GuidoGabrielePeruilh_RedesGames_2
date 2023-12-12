@@ -216,8 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraAnchorPoint: {fileID: 6382454497362376864}
-  _rollSpeed: 15
-  _lookRotateSpeed: 15
+  _playerData: {fileID: 11400000, guid: 3ef530b3bc0f3704f9a1a548242f8381, type: 2}
 --- !u!1 &4825785014361286686
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7921972438987104954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.465, z: 2.68}
+  m_LocalPosition: {x: 0, y: -0.465, z: 4.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

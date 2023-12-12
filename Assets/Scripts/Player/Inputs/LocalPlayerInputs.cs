@@ -29,14 +29,19 @@ public class LocalPlayerInputs : MonoBehaviour
         _inputData.lookInput.x = Input.mousePosition.x;
         _inputData.lookInput.y = Input.mousePosition.y ;
 
-        _inputData.aimForwardVector = _localCameraHandler.transform.forward;
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             _isFirePressed = true;
         }
 
-        _localCameraHandler.SetViewInputVector(_inputData.lookInput, _inputData.screenCenter, _inputData.rollMovement);
+        _localCameraHandler.SetViewInputVector(
+            _inputData.lookInput, 
+            _inputData.screenCenter,
+            _inputData.rollMovement
+            );
+
+        _inputData.aimForwardVector = _localCameraHandler.transform.rotation;
     }
 
     public NetworkInputData GetLocalInputs()

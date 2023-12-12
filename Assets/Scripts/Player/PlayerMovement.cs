@@ -8,10 +8,7 @@ using Fusion;
 public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private Rigidbody _rgbd;
-    [SerializeField] private float _life;
-    [SerializeField] private float _forwardSpeed;
-    [SerializeField] private float _sideSpeed;
-    [SerializeField] private float _hoverSpeed;
+    [SerializeField] private PlayerDataSO _playerData;
 
     private float _xAxi;
     private float _yAxi;
@@ -20,7 +17,7 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     public override void Spawned()
@@ -32,18 +29,25 @@ public class PlayerMovement : NetworkBehaviour
 
     public void Move(NetworkInputData networkInput)
     {
-        _yAxi = networkInput.yMovement * _forwardSpeed;
-        _xAxi = networkInput.xMovement * _sideSpeed;
-        _hover = networkInput.hoverMovement * _hoverSpeed;
+        _yAxi = networkInput.yMovement * _playerData.ForwardSpeed;
+        _xAxi = networkInput.xMovement * _playerData.SideSpeed;
+        _hover = networkInput.hoverMovement * _playerData.HoverSpeed;
 
         if (_yAxi != 0 || _xAxi != 0 || _hover != 0)
         {
-            _rgbd.MovePosition(transform.position + transform.forward * (_yAxi * Time.fixedDeltaTime) + transform.right * (_xAxi * Time.fixedDeltaTime) + transform.up * (_hover * Time.fixedDeltaTime));   
+            _rgbd.MovePosition(
+                transform.position + 
+                transform.forward * (_yAxi * Time.fixedDeltaTime) + 
+                transform.right * (_xAxi * Time.fixedDeltaTime) + 
+                transform.up * (_hover * Time.fixedDeltaTime)
+                );   
         }
 
-        transform.forward = networkInput.aimForwardVector;
-        Quaternion rotation = transform.rotation;
-        rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z);
-        transform.rotation = rotation;
+        _rgbd.MoveRotation(networkInput.aimForwardVector);
+    }
+
+    public void Rotate(float x, float y, float z)
+    {
+
     }
 }

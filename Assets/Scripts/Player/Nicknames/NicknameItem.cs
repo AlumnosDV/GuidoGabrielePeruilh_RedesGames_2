@@ -24,7 +24,7 @@ public class NicknameItem : MonoBehaviour
     
     public void UpdatePosition()
     {
+        if (_owner == null) return;
         transform.position = _owner.position + Vector3.up * Y_OFFSET;
-        transform.rotation = _owner.rotation;
     }
 }

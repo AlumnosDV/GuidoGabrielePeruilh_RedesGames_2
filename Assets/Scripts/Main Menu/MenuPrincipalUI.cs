@@ -29,7 +29,7 @@ public class MenuPrincipalUI : MonoBehaviour
     [ContextMenu("Default Awake")]
     private void Awake()
     {
-        Debug.Log("Awake Menu Principal UI");
+
         _mainMenuButtons.SetActive(false);
         _creditsScreen.SetActive(false);
         _controlsScreen.SetActive(false);
@@ -74,7 +74,6 @@ public class MenuPrincipalUI : MonoBehaviour
 
     public void GoToSessionsList()
     {
-        Debug.Log("GoToSessionList");
         ExecuteCommand(new ChangeMenuCommand(
             new[] { _sessionsScreen, _backButton }, new[] { _mainMenuButtons }));
         _sessionListUIHandler.OnLookingForSessions();
