@@ -22,9 +22,6 @@ public class LifeHandler : NetworkBehaviour
     [Networked]
     private bool PlayerDead { get; set; }
 
-    public event Action OnRespawn = delegate { };
-    public event Action<bool> OnEnableController = delegate {  };
-
     private void Awake()
     {
         _myNetworkPlayer = GetComponent<NetworkPlayer>();
@@ -88,7 +85,7 @@ public class LifeHandler : NetworkBehaviour
     {
         CurrentLife = _playerData.MaxLife;
 
-        OnRespawn();
+        EventManager.TriggerEvent("OnRespawn");
     }
 
     static void OnLifeChanged(Changed<LifeHandler> changed)
@@ -126,14 +123,14 @@ public class LifeHandler : NetworkBehaviour
     {
         _visualObject.SetActive(false);
 
-        OnEnableController(false);
+        EventManager.TriggerEvent("OnEnabledController", false);
     }
 
     void RemoteRespawn()
     {
         _visualObject.SetActive(true);
         _uiOnHitImage.color = new Color(0, 0, 0, 0);
-        OnEnableController(true);
+        EventManager.TriggerEvent("OnEnabledController", true);
     }
 
     void DisconnectInputAuthority()
