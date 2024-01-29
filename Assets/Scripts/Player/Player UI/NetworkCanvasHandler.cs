@@ -10,7 +10,16 @@ public class NetworkCanvasHandler : NetworkBehaviour
     private void Awake()
     {
         Debug.Log("NetworkCanvas Start");
-        GetComponent<NetworkPlayer>().OnPlayerLose += HandlePlayerKilled;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("OnPlayerLose", HandlePlayerKilled);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("OnPlayerLose", HandlePlayerKilled);
     }
 
     public void SetHostLeftCanvas()
@@ -18,9 +27,10 @@ public class NetworkCanvasHandler : NetworkBehaviour
         RPC_SetHostLeft();
     }
 
-    public void HandlePlayerKilled(bool playerDead)
+    public void HandlePlayerKilled(object[] obj)
     {
-        RPC_PlayerLost(playerDead);
+        if (obj[0] == null) return;
+        RPC_PlayerLost((bool)obj[0]);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
@@ -45,7 +55,6 @@ public class NetworkCanvasHandler : NetworkBehaviour
             StartCoroutine(GoToMainMenuCO());
         }
     }
-
 
     IEnumerator GoToMainMenuCO()
     {

@@ -20,12 +20,20 @@ public class PlayerMovement : NetworkBehaviour
         Cursor.visible = false;
     }
 
-    public override void Spawned()
+    private void OnEnable()
     {
-        base.Spawned();
-        GetComponent<LifeHandler>().OnRespawn += () => transform.position = Utils.GetRandomSpawnPoint();
+        EventManager.StartListening("OnRespawn", OnRespawn);   
     }
 
+    private void OnDisable()
+    {
+        EventManager.StopListening("OnRespawn", OnRespawn);
+    }
+
+    private void OnRespawn(object[] obj)
+    {
+        transform.position = Utils.GetRandomSpawnPoint();
+    }
 
     public void Move(NetworkInputData networkInput)
     {

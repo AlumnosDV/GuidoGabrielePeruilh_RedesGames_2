@@ -8,8 +8,6 @@ public class NetworkPlayer : NetworkBehaviour
     public static NetworkPlayer Local { get; private set; }
 
     public event Action OnPlayerDespawned = delegate { };
-    public event Action OnStartGame = delegate { };
-    public event Action<bool> OnPlayerLose = delegate { };
 
     private NicknameItem _myNickname;
     public LocalCamaraHandler localCameraHandler;
@@ -77,7 +75,7 @@ public class NetworkPlayer : NetworkBehaviour
         if (isHost)
             _networkCanvasHandler.SetHostLeftCanvas();
         else
-            OnPlayerLose(isDead);
+            EventManager.TriggerEvent("OnPlayerLose", isDead);
 
         OnPlayerDespawned();
     }

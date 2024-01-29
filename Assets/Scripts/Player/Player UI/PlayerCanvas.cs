@@ -8,7 +8,6 @@ public class PlayerCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject _aim;
     [SerializeField] private GameObject _hitImage;
-    [SerializeField] private NetworkPlayer _myNetworkPlayer;
 
     private void Awake()
     {

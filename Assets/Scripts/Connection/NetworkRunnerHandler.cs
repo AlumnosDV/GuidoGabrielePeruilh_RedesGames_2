@@ -12,8 +12,6 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner _runnerPrefab;
     private NetworkRunner _currentRunner;
 
-    public event Action OnLobbyJoined = delegate { };
-    public event Action<List<SessionInfo>> OnSessionListUpdate = delegate { };
 
     #region LOBBY
 
@@ -33,7 +31,7 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
         var result = await _currentRunner.JoinSessionLobby(SessionLobby.Custom, "Normal Lobby");
         if (result.Ok)
         {
-            OnLobbyJoined();
+            EventManager.TriggerEvent("OnLobbyJoined");
         }
         else
         {
@@ -84,7 +82,7 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        OnSessionListUpdate(sessionList);
+        EventManager.TriggerEvent("OnSessionListUpdate", sessionList);
     }
 
     #region Unused Callbacks

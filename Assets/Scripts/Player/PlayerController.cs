@@ -19,15 +19,24 @@ public class PlayerController : NetworkBehaviour
         _playerMovement = GetComponent<PlayerMovement>();
         _playerGun = GetComponent<PlayerGun>();
         _localCamaraHandler = GetComponentInChildren<LocalCamaraHandler>();
-
-        GetComponent<LifeHandler>().OnEnableController += DesactiveController;
     }
 
-    private void DesactiveController(bool active)
+    private void OnEnable()
     {
-        this.enabled = active;
+        EventManager.StartListening("OnEnabledController", DesactiveController);
     }
-   
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("OnEnabledController", DesactiveController);
+    }
+
+    private void DesactiveController(object[] obj)
+    {
+        if (obj[0] == null) return;
+
+        this.enabled = (bool)obj[0];
+    }   
 
     public override void FixedUpdateNetwork()
     {

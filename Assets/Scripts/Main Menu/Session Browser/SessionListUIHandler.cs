@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Fusion;
 using TMPro;
 using System.Collections.Generic;
+using System;
 
 public class SessionListUIHandler : MonoBehaviour
 {
@@ -22,16 +23,20 @@ public class SessionListUIHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _networkHandler.OnSessionListUpdate += ReceiveSessionList;
+        EventManager.StartListening("OnSessionListUpdate", ReceiveSessionList);
     }
 
     private void OnDisable()
     {
-        _networkHandler.OnSessionListUpdate -= ReceiveSessionList;
+        EventManager.StopListening("OnSessionListUpdate", ReceiveSessionList);
     }
 
-    void ReceiveSessionList(List<SessionInfo> allSessions)
+    void ReceiveSessionList(object[] obj)
     {
+        if (obj[0] == null) return;
+
+        var allSessions = (List<SessionInfo>)obj[0];
+
         ClearList();
 
         if (allSessions.Count == 0)
