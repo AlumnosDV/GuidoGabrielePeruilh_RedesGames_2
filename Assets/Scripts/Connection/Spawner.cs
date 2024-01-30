@@ -37,10 +37,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     
     #region Unused Callbacks
     
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) 
-    {
-        Debug.Log($"On Player Left");
-    }
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
     
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     
