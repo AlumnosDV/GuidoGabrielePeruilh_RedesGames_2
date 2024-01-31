@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
     private PlayerGun _playerGun;
     private LocalCamaraHandler _localCamaraHandler;
     private NetworkInputData _networkInput;
+    [SerializeField] private LayerMask _obtacleLayerMask;
 
     private void Awake()
     {
@@ -46,6 +47,16 @@ public class PlayerController : NetworkBehaviour
            
         if (_networkInput.isFirePressed)
             _playerGun.Shoot();
+    }
+
+    private void OnCollisionEnter(Collision obj)
+    {
+        Debug.Log($"{obj.gameObject.CompareTag("Obstacles")}");
+        if (obj.gameObject.CompareTag("Obstacles"))
+        {
+            GetComponent<LifeHandler>().Crash();
+        }
+
     }
 
     public void TurnBack()

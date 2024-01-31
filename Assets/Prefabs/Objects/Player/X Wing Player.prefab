@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2823325287050488700, guid: a7ca6f32cbbce8c4c961ca16cc061d0e,
+        type: 3}
+      propertyPath: _obtacleLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 2916407988288436085, guid: a7ca6f32cbbce8c4c961ca16cc061d0e,
         type: 3}
       propertyPath: _visualObject
@@ -102,6 +107,11 @@ PrefabInstance:
       propertyPath: _spawningBullet
       value: 
       objectReference: {fileID: 4512373513057287972}
+    - target: {fileID: 9071325214366772901, guid: a7ca6f32cbbce8c4c961ca16cc061d0e,
+        type: 3}
+      propertyPath: _collisionLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7ca6f32cbbce8c4c961ca16cc061d0e, type: 3}
 --- !u!4 &626332821706728921 stripped

@@ -58,6 +58,11 @@ public class LifeHandler : NetworkBehaviour
 
     }
 
+    public void Crash()
+    {
+        TakeDamage(CurrentLife);
+    }
+
     IEnumerator OnHitCO()
     {
         if (Object.HasInputAuthority)

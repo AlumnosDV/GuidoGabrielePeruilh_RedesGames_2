@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4425977265387785624}
   - component: {fileID: 8500499451016270740}
   - component: {fileID: 9191304821675796342}
-  m_Layer: 0
+  - component: {fileID: 7398665190499083280}
+  m_Layer: 8
   m_Name: Stone
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2599377304688082955}
-  m_LocalRotation: {x: -0.45700818, y: -0, z: -0, w: 0.88946253}
-  m_LocalPosition: {x: -52.834118, y: 54.600494, z: -28.130743}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.006888889, y: 0.010000001, z: 0.010000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -54.388, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8500499451016270740
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7398665190499083280
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599377304688082955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 570
+  m_Height: 2266.5
+  m_Direction: 2
+  m_Center: {x: 98.40966, y: -422.9, z: -87.36152}
