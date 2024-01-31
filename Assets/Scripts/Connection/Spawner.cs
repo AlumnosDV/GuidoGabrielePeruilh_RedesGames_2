@@ -8,15 +8,28 @@ using System.Linq;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkPlayer _playerPrefab;
     private LocalPlayerInputs _playerInputs;
-    
+    private NetworkRunner _currentNetworkRunner;
+    private PlayerRef _currentPlayerRef;
+
+    public void PlayerSpawner(NetworkPlayer playerPrefab)
+    {
+        if (_currentNetworkRunner.IsServer)
+        {
+            _currentNetworkRunner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, _currentPlayerRef);
+        }
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log($"On Player Join {runner.name}, {player.PlayerId}, {runner.IsServer}");
         if (runner.IsServer)
         {
-            runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
+            _currentNetworkRunner = runner;
+            _currentPlayerRef = player;
+            //runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
         }
+
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -43,7 +56,9 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     
-    public void OnConnectedToServer(NetworkRunner runner) { }
+    public void OnConnectedToServer(NetworkRunner runner) 
+    {
+    }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
 

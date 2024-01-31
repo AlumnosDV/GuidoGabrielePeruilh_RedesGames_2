@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class GameCanvas : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField] private Spawner _spawner;
+    [SerializeField] private GameObject _selectTeamCanvas;
+
+    private void Start()
     {
-        
+        _selectTeamCanvas.SetActive(true);
+        _spawner = FindObjectOfType<Spawner>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetTeam(NetworkPlayer prefab)
     {
-        
+        _spawner.PlayerSpawner(prefab);
+        _selectTeamCanvas.SetActive(false);
     }
+    
+
+
 }
